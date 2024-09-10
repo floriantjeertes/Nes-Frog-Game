@@ -13,6 +13,7 @@ EntitieArray = $03F8
 .zeropage
  .importzp EntitieArrayLength 
  .importzp metaSpriteIndex , metaSpriteSlot
+ .importzp  TotalSpriteLength
  .importzp  xpos, ypos
 
 .segment "CODE"
@@ -60,7 +61,7 @@ EntitieArray = $03F8
     lda EntitieArray+6,y
     sta ypos
 
-
+    
      lda EntitieArray,y
      and #%00000000
      cmp #$01
@@ -90,10 +91,10 @@ EntitieArray = $03F8
     jmp @loop
 
     @endloop:
-;  pla 
    lda #$00
    sta @Length
    sta @index
+   sta TotalSpriteLength
 rts
 
 

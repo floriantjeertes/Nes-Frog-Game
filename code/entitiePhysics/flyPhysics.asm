@@ -117,6 +117,7 @@ rts
 @CheckColision:
   ; check if fly is at the right edge of screen
   lda xpos
+  and #$F0
   cmp #$F0
   bne :+
 
