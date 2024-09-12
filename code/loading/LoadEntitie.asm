@@ -26,6 +26,7 @@ Index = $00
   EntitieArrayLength: .res 1
   EmptySpace: .res 1
   Length: .res 1
+  
 
 .segment "CODE"
  ldy #$00
@@ -42,7 +43,6 @@ Index = $00
  cmp EmptySpace
  bne @LOAD
  ldy EmptySpace
-
 @LOAD:
     lda Length
     tay 
@@ -55,7 +55,8 @@ Index = $00
     iny 
     iny 
     iny 
-    iny 
+    iny     
+    ; iny
     ;load options into the array
     lda Entities,x
     sta EntitieArray,y
@@ -82,7 +83,9 @@ Index = $00
     sta EntitieArray+6,y
     sta EntitieArray+7,y
 
+  
     inc EntitieArrayLength
+
 
     
     tya 
@@ -93,6 +96,7 @@ rts
   :
     cpx EntitieArrayLength
     bne @skip
+     iny 
      iny 
      iny 
      iny 

@@ -13,8 +13,11 @@
 .export RUNENTITIEBEHAVIOUR
 
 EntitieArray = $0400
-Length = $02
-Adress = $03
+
+; Length = $02
+; Adress = $03 ;2 bytes
+; SelectedEntityIndex =$05
+
 
 
 
@@ -30,13 +33,16 @@ Adress = $03
   xpos: .res 2
   ypos: .res 2
   ModifyingCode: .res 4
-
-
+  ;maybe store these on the stack later
+  Length: .res 2
+  Adress:.res 2
+  SelectedEntityIndex: .res 1
 .segment "CODE"
     ldy #$00
     ldx #$00
     lda #$00
     sta Length
+    sta SelectedEntityIndex
  
     @loop:
      ldx Length 
@@ -46,6 +52,10 @@ Adress = $03
       jsr SELECTENTITY
 
       jsr RUNBEHAVIOUR
+      
+      jsr CleanMemory
+
+     ldy  SelectedEntityIndex
 
      iny 
      iny 
@@ -55,19 +65,27 @@ Adress = $03
      iny 
      iny 
      iny 
+
+     sty SelectedEntityIndex
 
      tya 
+
+     ldx Length
      inx 
      stx Length 
-
+    
+   
       
     jmp @loop
     @endloop:
+
+    jsr CleanMemory
 rts
 
 
 SELECTENTITY:
-
+ 
+ ldy SelectedEntityIndex
  ;Adress 2 bytes (word)
  lda EntitieArray+2 ,y
  sta Adress
@@ -89,6 +107,8 @@ SELECTENTITY:
 rts
 
 RUNBEHAVIOUR:
+
+ 
  lda #$20
  sta ModifyingCode
  lda Adress
@@ -99,8 +119,14 @@ RUNBEHAVIOUR:
  lda #$60
  sta ModifyingCode+3
  
+ ;maybe store registers on the stack here
  jsr ModifyingCode
 
+
+ ;load entitie index back into y
+ ldy SelectedEntityIndex
+  
+ 
  ;load posibly updated values back into array
  lda xpos
  sta EntitieArray+4 ,y
@@ -114,4 +140,32 @@ RUNBEHAVIOUR:
 
 rts
 
+;maybe put this in diverent file
+CleanMemory:
+ ldy #$00
+ ldx #$00
+ lda #$00
+ ;clean local ram
+ sta $00
+ sta $01
+ sta $02
+ sta $03
+ sta $04
+ sta $05
+ sta $08
+ sta $09
+ sta $0A
+ sta $0B
+ sta $0C
+ sta $0D
+ sta $0E
+ sta $0F
+
+
+
+
+ ldy #$00
+ ldx #$00
+
+rts
 .endproc

@@ -39,9 +39,14 @@ LOAD:
     jsr LOADENTITIE
 
 
-    ; ldx #$00
-    ; jsr LOADENTITIE
+    ldx #$04
+    jsr LOADENTITIE
 
+    ldx #$08
+    jsr LOADENTITIE
+
+    ldx #$0C
+    jsr LOADENTITIE
 
 
 rts

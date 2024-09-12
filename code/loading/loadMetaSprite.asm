@@ -8,6 +8,7 @@ OAM_END = $02FF
 .zeropage
   .exportzp  metaSpriteIndex := $00
   .exportzp  metaSpriteSlot := $01
+  .exportzp  TotalSpriteLength := $50
   .importzp  xpos, ypos
   ; local variables
   Meta_Sprite_Start_Adress_last_byte: .res 1
@@ -15,8 +16,8 @@ OAM_END = $02FF
   MetaSpriteAtributeAdress: .res 2
   MetaSpriteXPositionAdress: .res 2
   MetaSpriteYPositionAdress: .res 2
-
   metaSpriteLength: .res 1
+  ; TotalSpriteLength: .res 1
   metaOffset: .res 1
   temp: .res 1
 .segment "CODE"
@@ -28,6 +29,8 @@ OAM_END = $02FF
   ; Load meta sprite patterns
   ldy #$00
   ldx #$00
+
+
 
   ;get the offset of the meta sprite
   getLengthOfsetOfSprite:
@@ -67,7 +70,6 @@ OAM_END = $02FF
   ; Load meta sprite tiles
   lda META_LOOKUP_TABLE, x      ;store length first
   sta metaSpriteLength     
-
   ;load the adress of the meta sprite                  
   lda META_LOOKUP_TABLE+1, x   ; load the second part of where the tile data is stored
   sta Meta_Sprite_Start_Adress_last_byte
@@ -101,14 +103,17 @@ OAM_END = $02FF
   sta temp
 
   SetSpriteSlot:
+   
+
     clc 
-    cpy metaSpriteSlot
-    beq EndSetSpriteSlot 
+    ; cpy metaSpriteSlot
+    ; beq EndSetSpriteSlot 
     ldx #$00       
       :
          lda temp
          clc 
-         cpx metaSpriteLength
+        ;  cpx metaSpriteLength
+         cpx TotalSpriteLength
          beq :+
          inx  
          inc temp
@@ -118,19 +123,19 @@ OAM_END = $02FF
          ;jump to the start of the loop
          jmp :- 
       :    
-    iny 
-    jmp SetSpriteSlot
+    ; iny 
+    ; jmp SetSpriteSlot
   EndSetSpriteSlot:    
   tax  
     
   
 
-  ;  get the length meta sprites that is before it in the list to get the ofset\
-  ; lda metaOffset
-   
-  ; clc 
-  ; adc metaSpriteLength
-  ; sta metaSpriteLength
+  ;store the length of the meta sprite and store it in the previous meta sprite length
+  lda metaSpriteLength
+  adc TotalSpriteLength
+  sta TotalSpriteLength
+  
+
   ldy #$00
 
   LOAD_TILE:
