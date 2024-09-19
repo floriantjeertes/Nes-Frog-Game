@@ -2,6 +2,7 @@
 .export RENDER
 
 .import LOAD_META_SPRITE
+.import CLEAR_METASPRITES
 
 EntitieArray = $03F8
 
@@ -27,6 +28,8 @@ EntitieArray = $03F8
     lda #$FF
     sta metaSpriteSlot
 
+    ;clear all sprites
+    jsr CLEAR_METASPRITES
 
    ;loop trough all the entities to render them 
    ;might make a check to assert if a entitie should be renderd or not
