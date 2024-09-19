@@ -24,4 +24,4 @@ $(outnes): $(objFiles)
 	@echo "Linking $@"
 	@tools/ld65 $(objFiles) -o $@ -t nes --dbgfile $(objdir)/$(outputname).dbg
 	@echo "Running $@"
-	@tools/Mesen $@ --debugger --trace &
+	# @tools/Mesen $@ --debugger --trace &
