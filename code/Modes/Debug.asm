@@ -25,6 +25,8 @@
 rts
 
 LOAD:
+
+
     lda #$01
     jsr LOADBACKGROUND
 
@@ -48,6 +50,7 @@ LOAD:
     ; ldx #$0C
     ; jsr LOADENTITIE
 
+   
 
 rts
 

@@ -1,4 +1,4 @@
-tablelength = 2
+tablelength = 5
 
 META_LOOKUP_TABLE:
   ; Lookup table for meta sprite data
@@ -7,22 +7,30 @@ META_LOOKUP_TABLE:
   .addr META_ATRIBUTE_DATA   
   .addr META_POSITION_DATA_X   
   .addr META_POSITION_DATA_Y   
+
+;#1
   .byte 04               ; player 1 jump sprite length
   .addr META_TILE_DATA+4 ; player 1 jump facing right
   .addr META_ATRIBUTE_DATA+4   
   .addr META_POSITION_DATA_X+4   
   .addr META_POSITION_DATA_Y+4 
+ 
+;#2 
   .byte 14               ; test
   .addr META_TILE_DATA+8
   .addr META_ATRIBUTE_DATA+8   
   .addr META_POSITION_DATA_X+8   
   .addr META_POSITION_DATA_Y+8 
+
+;#3
   .byte 03                ; player 1 sprite jump 
   .addr META_TILE_DATA+22 ; player 1 sprite jump 
   .addr META_ATRIBUTE_DATA+22   
   .addr META_POSITION_DATA_X+22   
   .addr META_POSITION_DATA_Y+22
-   .byte 03                ; player 1 sprite jump 
+  
+;#4
+  .byte 03                ; player 1 sprite jump 
   .addr META_TILE_DATA+25 ; player 1 sprite jump 
   .addr META_ATRIBUTE_DATA+22   
   .addr META_POSITION_DATA_X+22   
